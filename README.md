@@ -1,4 +1,4 @@
-# pluginsib-login
+# PluginsIB-Login
 Plugins de Login (LoginIB, Mock, ...)
 
 
