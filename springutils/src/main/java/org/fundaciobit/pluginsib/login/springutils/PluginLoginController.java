@@ -1,10 +1,10 @@
 package org.fundaciobit.pluginsib.login.springutils;
 
-import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.login.api.ConstantsLogin;
 import org.fundaciobit.pluginsib.login.api.IPluginLogin;
 import org.fundaciobit.pluginsib.login.api.LoginInfo;
 import org.fundaciobit.pluginsib.login.api.LoginInfoRepresentative;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;

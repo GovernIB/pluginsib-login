@@ -2,8 +2,8 @@ package org.fundaciobit.pluginsib.login.api;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
+import org.jboss.logging.Logger;
 
 
 

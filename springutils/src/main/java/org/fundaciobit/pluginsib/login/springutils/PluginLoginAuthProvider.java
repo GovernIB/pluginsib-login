@@ -1,7 +1,7 @@
 package org.fundaciobit.pluginsib.login.springutils;
 
-import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.login.api.LoginInfo;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

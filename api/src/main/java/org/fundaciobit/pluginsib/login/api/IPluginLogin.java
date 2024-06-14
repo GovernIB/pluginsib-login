@@ -2,14 +2,14 @@ package org.fundaciobit.pluginsib.login.api;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.fundaciobit.pluginsib.core.IPlugin;
+import org.fundaciobit.pluginsib.core.v3.IPluginIB;
 
 /**
  * 
  * @author anadal
  *
  */
-public interface IPluginLogin extends IPlugin {
+public interface IPluginLogin extends IPluginIB {
 
     public static final String PLUGIN_LOGIN_PROPERTY_BASE = IPLUGINSIB_BASE_PROPERTIES + "login.";
 

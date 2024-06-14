@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.fundaciobit.pluginsib.login.api.AbstractPluginLogin;
 import org.fundaciobit.pluginsib.login.api.ConstantsLogin;
 import org.fundaciobit.pluginsib.login.api.LoginInfo;
+import org.jboss.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +17,8 @@ import com.google.gson.GsonBuilder;
  */
 public class PluginLoginMock extends AbstractPluginLogin {
 
+    private final Logger log = Logger.getLogger(getClass());
+	
     private static final String PLUGIN_MOCK_PROPERTY_BASE = PLUGIN_LOGIN_PROPERTY_BASE + "mock.";
 
     public PluginLoginMock() {

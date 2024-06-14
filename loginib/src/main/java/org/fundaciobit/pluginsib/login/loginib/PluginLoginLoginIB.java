@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import org.jboss.logging.Logger;
 
 import org.fundaciobit.pluginsib.login.api.AbstractPluginLogin;
 import org.fundaciobit.pluginsib.login.api.LoginInfo;
@@ -29,6 +30,9 @@ import es.caib.loginib.rest.api.v1.RLogoutParams;
 public class PluginLoginLoginIB extends AbstractPluginLogin {
 
     protected final String PLUGIN_LOGINIB_PROPERTY_BASE = PLUGIN_LOGIN_PROPERTY_BASE + "loginib.";
+    
+    private final Logger log = Logger.getLogger(getClass());
+
 
     public PluginLoginLoginIB() {
         super();
