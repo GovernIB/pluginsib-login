@@ -39,3 +39,5 @@ replay_pid*
 
 /loginib/202306-LOGINIB_EvidenciasSesion.pdf
 /loginib/copia.properties.sample
+/target
+/.settings

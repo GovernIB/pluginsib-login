@@ -13,7 +13,7 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.login</groupId>
             <artifactId>pluginsib-login-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 
