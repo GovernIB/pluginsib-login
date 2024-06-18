@@ -1,4 +1,4 @@
-# PluginsIB-Login 1.0
+# PluginsIB-Login 2.0
 Plugins de Login (LoginIB, Mock, ...)
 
 
