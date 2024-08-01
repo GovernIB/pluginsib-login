@@ -41,8 +41,8 @@
     </licenses>
     <properties>
         <!-- Spring -->
-        <spring.version>4.3.26.RELEASE</spring.version>
-        <springsecurity.version>4.2.14.RELEASE</springsecurity.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <springsecurity.version>4.2.20.RELEASE</springsecurity.version>
     </properties>
     <dependencies>
         <dependency>
