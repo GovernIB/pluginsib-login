@@ -1,0 +1,555 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "LoginIB API REST v1",
+    "description" : "API REST per interactuar amb el servei de LoginIB.",
+    "version" : "1.0"
+  },
+  "tags" : [ {
+    "name" : "LoginIBV1",
+    "description" : "LoginIB Swagger v1. Operacions per interactuar amb l'API de LoginIB."
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "tags" : [ "LoginIBV1" ],
+        "summary" : "Iniciar proceso de inicio de sesión",
+        "operationId" : "login",
+        "requestBody" : {
+          "description" : "Solicita i configura una transacció de firma web",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RLoginParams"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Url redirección Clave",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/logout" : {
+      "post" : {
+        "tags" : [ "LoginIBV1" ],
+        "summary" : "Realiza logout en Cl@ve",
+        "operationId" : "logout",
+        "requestBody" : {
+          "description" : "Logout params",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RLogoutParams"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Url redirección ",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/ticket/{ticket}" : {
+      "get" : {
+        "tags" : [ "LoginIBV1" ],
+        "summary" : "Obtiene datos autenticación a partir del ticket",
+        "operationId" : "ticket",
+        "parameters" : [ {
+          "name" : "ticket",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Datos autenticación",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RDatosAutenticacion"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/evidencias/{idSesion}" : {
+      "get" : {
+        "tags" : [ "LoginIBV1" ],
+        "summary" : "Obtener evidencias autenticación",
+        "operationId" : "evidencias",
+        "parameters" : [ {
+          "name" : "idSesion",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Evidencies autenticación",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/REvidenciasAutenticacion"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "RestExceptionInfo" : {
+        "required" : [ "code", "errorMessage" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "description" : "Codi de HTTP de l'error. Veure https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.",
+            "format" : "int32"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Missatge de l'error"
+          },
+          "stackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció si n'hi hagués."
+          },
+          "causeException" : {
+            "type" : "string",
+            "description" : "Tipus de l'excepció origen (cause) si n'hi hagués."
+          },
+          "causeStackTrace" : {
+            "type" : "string",
+            "description" : "Stacktrace de l'excepció origen (cause) si n'hi hagués."
+          }
+        },
+        "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "RLoginParams" : {
+        "required" : [ "entidad", "forzarAutenticacion", "idioma", "inicioClaveAutomatico", "metodosAutenticacion", "urlCallback", "urlCallbackError" ],
+        "type" : "object",
+        "properties" : {
+          "entidad" : {
+            "type" : "string",
+            "description" : "Código Entidad (DIR3)"
+          },
+          "urlCallback" : {
+            "type" : "string",
+            "description" : "Url Callback login"
+          },
+          "urlCallbackError" : {
+            "type" : "string",
+            "description" : "Url Callback error"
+          },
+          "metodosAutenticacion" : {
+            "type" : "string",
+            "description" : "Metodos autenticacion clave (separados por ;). Valores: ANONIMO;CLAVE_CERTIFICADO;CLAVE_PIN;CLAVE_PERMANENTE;CLAVE_MOVIL;CLIENTCERT;USUARIO_PASSWORD"
+          },
+          "qaa" : {
+            "type" : "integer",
+            "description" : "Nivel autenticacion: 1 (Bajo), 2 (Medio) y 3 (Alto).",
+            "format" : "int32"
+          },
+          "idioma" : {
+            "type" : "string",
+            "description" : "Idioma"
+          },
+          "inicioClaveAutomatico" : {
+            "type" : "boolean",
+            "description" : "Iniciar Cl@ve automatico"
+          },
+          "forzarAutenticacion" : {
+            "type" : "boolean",
+            "description" : "Forzar autenticación"
+          },
+          "aplicacion" : {
+            "type" : "string",
+            "description" : "Aplicación"
+          },
+          "auditar" : {
+            "type" : "boolean",
+            "description" : "Indica si genera auditoría autenticación (con evidencias autenticación)"
+          },
+          "paramsApp" : {
+            "$ref" : "#/components/schemas/RParamsApp"
+          }
+        },
+        "description" : "Datos para iniciar proceso de inicio de sesión"
+      },
+      "RParamApp" : {
+        "required" : [ "propiedad", "valor" ],
+        "type" : "object",
+        "properties" : {
+          "propiedad" : {
+            "type" : "string",
+            "description" : "Propiedad"
+          },
+          "valor" : {
+            "type" : "string",
+            "description" : "Valor"
+          }
+        },
+        "description" : "Parametros"
+      },
+      "RParamsApp" : {
+        "required" : [ "parametros" ],
+        "type" : "object",
+        "properties" : {
+          "parametros" : {
+            "type" : "array",
+            "description" : "Parametros",
+            "items" : {
+              "$ref" : "#/components/schemas/RParamApp"
+            }
+          }
+        },
+        "description" : "Parametros extras de la peticion"
+      },
+      "RLogoutParams" : {
+        "required" : [ "aplicacion", "entidad", "idioma", "urlCallback" ],
+        "type" : "object",
+        "properties" : {
+          "entidad" : {
+            "type" : "string",
+            "description" : "Código Entidad (DIR3)"
+          },
+          "urlCallback" : {
+            "type" : "string",
+            "description" : "Url Callback"
+          },
+          "idioma" : {
+            "type" : "string",
+            "description" : "Idioma"
+          },
+          "aplicacion" : {
+            "type" : "string",
+            "description" : "Aplicacion"
+          }
+        },
+        "description" : "Parámetros logout"
+      },
+      "RDatosAutenticacion" : {
+        "required" : [ "idSesion", "metodoAutenticacion", "nif", "nombre", "qaa" ],
+        "type" : "object",
+        "properties" : {
+          "idSesion" : {
+            "type" : "string",
+            "description" : "Identificador sesión autenticación"
+          },
+          "metodoAutenticacion" : {
+            "type" : "string",
+            "description" : "Metodo autenticacion (Valores: ANONIMO;CLAVE_CERTIFICADO;CLAVE_PIN;CLAVE_PERMANENTE;CLAVE_MOVIL;CLIENTCERT;USUARIO_PASSWORD)"
+          },
+          "qaa" : {
+            "type" : "string",
+            "description" : "QAA (Débil:0 / Bajo:1 / Medio: 2 / Alto: 3)"
+          },
+          "nif" : {
+            "type" : "string",
+            "description" : "Nif"
+          },
+          "nombre" : {
+            "type" : "string",
+            "description" : "Nombre"
+          },
+          "apellidos" : {
+            "type" : "string",
+            "description" : "Apellidos"
+          },
+          "apellido1" : {
+            "type" : "string",
+            "description" : "Apellido 1"
+          },
+          "apellido2" : {
+            "type" : "string",
+            "description" : "Apellido 2"
+          },
+          "representante" : {
+            "$ref" : "#/components/schemas/RDatosRepresentante"
+          },
+          "paramsApp" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string",
+              "description" : "Params APP"
+            },
+            "description" : "Params APP"
+          }
+        }
+      },
+      "RDatosRepresentante" : {
+        "required" : [ "nif", "nombre" ],
+        "type" : "object",
+        "properties" : {
+          "nif" : {
+            "type" : "string",
+            "description" : "Nif"
+          },
+          "nombre" : {
+            "type" : "string",
+            "description" : "Nombre"
+          },
+          "apellidos" : {
+            "type" : "string",
+            "description" : "Apellidos"
+          },
+          "apellido1" : {
+            "type" : "string",
+            "description" : "Apellido 1"
+          },
+          "apellido2" : {
+            "type" : "string",
+            "description" : "Apellido 2"
+          }
+        },
+        "description" : "Representante en caso de persona jurídica"
+      },
+      "REvidenciasAutenticacion" : {
+        "required" : [ "evidencias", "huellaElectronica" ],
+        "type" : "object",
+        "properties" : {
+          "evidencias" : {
+            "type" : "array",
+            "description" : "Lista de evidencias",
+            "items" : {
+              "$ref" : "#/components/schemas/RPropiedad"
+            }
+          },
+          "huellaElectronica" : {
+            "type" : "string",
+            "description" : "Huella electrónica autenticación"
+          }
+        }
+      },
+      "RPropiedad" : {
+        "required" : [ "mostrar", "propiedad", "tipo", "valor" ],
+        "type" : "object",
+        "properties" : {
+          "propiedad" : {
+            "type" : "string",
+            "description" : "Propiedad"
+          },
+          "tipo" : {
+            "type" : "string",
+            "description" : "Tipo: String / XML (Base64)"
+          },
+          "valor" : {
+            "type" : "string",
+            "description" : "Valor"
+          },
+          "mostrar" : {
+            "type" : "boolean",
+            "description" : "Valor"
+          }
+        },
+        "description" : "Lista de evidencias"
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

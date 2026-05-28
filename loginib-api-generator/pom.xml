@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.fundaciobit.pluginsib.login</groupId>
+        <version>2.0.0-SNAPSHOT</version>
+        <artifactId>pluginsib-login</artifactId>
+    </parent>
+    <artifactId>pluginsib-login-loginib-apigenerator</artifactId>
+    <packaging>jar</packaging>
+    <name>PluginsIB - Login - LoginIB - API Generator</name>
+    
+    
+    <properties>
+        <pluginsib.utils.version>3.0.0-SNAPSHOT</pluginsib.utils.version>
+        <pluginsib.utils.rest.version>3.0.1-SNAPSHOT</pluginsib.utils.rest.version>
+    </properties>
+    
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+        </dependency>
+        <!-- Anotacions de documentació de openapi -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+             <version>2.2.27</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>2.2.27</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </dependency>
+        
+        <dependency>
+            <artifactId>pluginsib-utils-rest</artifactId>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <version>3.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                </exclusion>
+             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <artifactId>pluginsib-utils-swagger-ui-configurable-webjar</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Genera el descriptor openapi.json de forma estàtica, després 
+                el posarem l'arrel del WAR -->
+            <!-- https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
+            <plugin>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>2.2.15</version>
+                <configuration>
+                    <outputFormat>JSON</outputFormat>
+                    <prettyPrint>TRUE</prettyPrint>
+                    <outputPath>${project.basedir}/openapi/</outputPath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>openapi_interna_1</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                        <configuration>
+                            <contextId>ApiValidacio</contextId>
+                            <outputFileName>openapi_loginib_v1</outputFileName>
+                            <resourcePackages>
+                                <package>es.caib.loginib.rest.api.v1</package>
+                            </resourcePackages>
+                            <!--   S'estan generant un conjunt de classes internes en el model del client que no són de l'API  
+                            <filterClass>es.caib.utilitatsfirma.api.interna.secure.CustomSwaggerFilter</filterClass>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeProjectDependencies>false</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <executableDependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                    </executableDependency>
+                    <mainClass>
+                        org.fundaciobit.pluginsib.utils.rest.pomadaptertojboss72.AdaptApiClientPomToJboss72</mainClass>
+                    <arguments>
+                        <argument>${project.basedir}</argument>
+                    </arguments>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <artifactId>pluginsib-utils-rest</artifactId>
+                        <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                        <version>${pluginsib.utils.rest.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
+                    <!-- converteix aquest en noms de variables correctes: -->
+                    <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${project.basedir}/ProcessEnumVarNamesAndDescriptionsInOpenApiFiles.groovy</source>
+                            <properties>
+                                <openapifolder>${project.basedir}/openapi/</openapifolder>
+                            </properties>
+                        </configuration>
+                    </execution>
+                    <!-- Eliminam _1 de les anotacions amb operationID duplicat -->
+                    <execution>
+                        <id>replace-secondary-operations</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${project.basedir}/ReplaceSecondaryOperations.groovy</source>
+                            <properties>
+                                <openapifolder>${project.basedir}/openapi</openapifolder>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- ==================================================================  -->
+            <!-- Genera el Client Rest per Java a partir del fitxers openapi_*.json -->
+            <!-- ==================================================================  -->
+            <plugin>
+                <!-- https://openapi-generator.tech/docs/generators/java/ -->
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.10.0</version>
+                <!-- 
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                -->
+                <executions>
+                    <execution>
+                        <id>openapi_interna_C</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/openapi/openapi_loginib_v1.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <skipValidateSpec>false</skipValidateSpec>
+                            <library>resteasy</library>
+                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
+                            <!-- <configHelp>true</configHelp> -->
+                            <addCompileSourceRoot>false</addCompileSourceRoot>
+                            <output>${project.basedir}/../loginib-api-v1</output>
+                            <apiPackage>org.fundaciobit.pluginsib.login.loginib.api.client.v1.api</apiPackage>
+                            <modelPackage>org.fundaciobit.pluginsib.login.loginib.api.client.v1.model</modelPackage>
+                            <invokerPackage>org.fundaciobit.pluginsib.login.loginib.api.client.v1.services</invokerPackage>
+                            <generateModelTests>false</generateModelTests>
+                            <globalProperties>
+                                <skipFormModel>false</skipFormModel>
+                            </globalProperties>
+                            <configOptions>
+                                <skipFormModel>false</skipFormModel>
+                                <groupId>org.fundaciobit.pluginsib.login</groupId>
+                                <artifactId>pluginsib-login-loginib-api-client-v1</artifactId>
+                                <artifactVersion>1.0-SNAPSHOT</artifactVersion>
+                                <artifactDescription>PluginsIB - Login - LoginIB - API Client V1</artifactDescription>
+                                <dateLibrary>java8</dateLibrary>
+                                <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <java11>true</java11>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

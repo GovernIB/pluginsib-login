@@ -17,6 +17,8 @@
         <module>api</module>
         <module>loginib</module>
         <module>mock</module>
+        <module>loginib-api-v1</module>
+        <module>loginibswagger</module>
         <module>springutils</module>
     </modules>
     <developers>

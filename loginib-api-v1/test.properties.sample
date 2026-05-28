@@ -1,0 +1,11 @@
+
+
+
+es.caib.evidenciesib.pluginsib.login.loginib.metodos_auth=CLAVE_CERTIFICADO;CLAVE_MOVIL;CLAVE_PERMANENTE
+es.caib.evidenciesib.pluginsib.login.loginib.entidad=A04003003
+es.caib.evidenciesib.pluginsib.login.loginib.aplicacion=CLIENT_TEST
+es.caib.evidenciesib.pluginsib.login.loginib.aplicaciondescripcion=APP_CLIENT
+es.caib.evidenciesib.pluginsib.login.loginib.nivel_qaa=2
+es.caib.evidenciesib.pluginsib.login.loginib.url=https://HOST/loginibws/rest/v1
+es.caib.evidenciesib.pluginsib.login.loginib.user=username
+es.caib.evidenciesib.pluginsib.login.loginib.pass=password

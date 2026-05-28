@@ -30,9 +30,8 @@ import es.caib.loginib.rest.api.v1.RLogoutParams;
 public class PluginLoginLoginIB extends AbstractPluginLogin {
 
     protected final String PLUGIN_LOGINIB_PROPERTY_BASE = PLUGIN_LOGIN_PROPERTY_BASE + "loginib.";
-    
-    private final Logger log = Logger.getLogger(getClass());
 
+    private final Logger log = Logger.getLogger(getClass());
 
     public PluginLoginLoginIB() {
         super();
@@ -122,6 +121,7 @@ public class PluginLoginLoginIB extends AbstractPluginLogin {
         EMPRESES.add('V');
     }
 
+    @Override
     public String startAuthentication(String urlCallBackLoginOk, String urCallBackLoginError, String language)
             throws Exception {
 
@@ -275,6 +275,7 @@ public class PluginLoginLoginIB extends AbstractPluginLogin {
 
     }
 
+    @Override
     public String logout(String urlCallBackLogout, String language) throws Exception {
 
         final org.springframework.web.client.RestTemplate restTemplate = getLoginIbRestTemplate();
