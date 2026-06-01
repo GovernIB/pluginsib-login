@@ -105,7 +105,7 @@ class LoginIbv1ApiTest {
             out.println("HTTP/1.1 200 OK");
             out.println("Content-Type: text/plain");
             out.println();
-            out.println("Revisar consola de test per veure el resultat de l'autenticaci&oacute;.");
+            out.println("Revisar consola de test per veure el resultat de l'autenticacio.");
             out.flush();
 
             out.close();
