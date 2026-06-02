@@ -19,7 +19,9 @@ public class PluginLoginSecurityServiceImpl implements PluginLoginSecurityServic
     public String iniciarSesionAutentificacion(IPluginLogin pluginLogin, String urlCallBackLoginOk,
             String urCallBackLoginError, String language) throws Exception {
 
-        log.info("\n\n\nUrl CALLBACK: " + urlCallBackLoginOk + "\nURL ERROR: " + urCallBackLoginError + "\n\n\n");
+        log.info("PluginLoginSecurityServiceImpl::iniciarSesionAutentificacion()\n"
+                + "    - URL CALLBACK: " + urlCallBackLoginOk + "\n"
+                + "    - URL ERROR: " + urCallBackLoginError + "\n");
 
         return pluginLogin.startAuthentication(urlCallBackLoginOk, urCallBackLoginError, language);
 
@@ -39,7 +41,7 @@ public class PluginLoginSecurityServiceImpl implements PluginLoginSecurityServic
 
         String urlLogout = pluginLogin.logout(urlCallBackLogout, language);
 
-        log.info("Url LOGOUT: " + urlLogout);
+        log.info("PluginLoginSecurityServiceImpl::iniciarSesionLogoutUrl() => LOGOUT: " + urlLogout);
 
         return urlLogout;
 

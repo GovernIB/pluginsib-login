@@ -296,6 +296,17 @@ public class PluginLoginLoginIBSwagger extends AbstractPluginLogin {
 
     @Override
     public String getError(HttpServletRequest request, String language) {
+        
+        // XYZ DEBUG
+        log.warn("PluginLoginLoginIBSwagger::getError() => HttpServletRequest:");
+        log.warn(" ++++ request::Scheme: " + request.getScheme());
+        log.warn(" ++++ request::PathInfo: " + request.getPathInfo());
+        log.warn(" ++++ request::PathTrans: " + request.getPathTranslated());
+        log.warn(" ++++ request::ContextPath: " + request.getContextPath());
+        log.warn(" ++++ request::ServletPath: " + request.getServletPath());
+        log.warn(" ++++ request::getRequestURI: " + request.getRequestURI());
+        log.warn(" ++++ request::getRequestURL: " + request.getRequestURL().toString());
+        log.warn(" ++++ request::getQueryString: " + request.getQueryString());
 
         StringBuffer errorStr = new StringBuffer();
 
@@ -308,9 +319,10 @@ public class PluginLoginLoginIBSwagger extends AbstractPluginLogin {
         }
 
         if (errorStr.length() == 0) {
+            log.error("PluginLoginLoginIBSwagger::getError() => getParameterMap Error: null");
             return null;
         } else {
-            log.error(errorStr.toString());
+            log.error("PluginLoginLoginIBSwagger::getError() => getParameterMap Error: " + errorStr.toString());
             return errorStr.toString();
         }
 

@@ -44,7 +44,7 @@ public class PluginLoginController {
 
     private static final String MAPPING_OK_LOGIN = "/okLogin";
 
-    private static final String MAPPING_ERROR_LOGIN = "/errorLogin";
+    public static final String MAPPING_ERROR_LOGIN = "/errorLogin";
     
     /** 
      * Quan el plugin no controla l'error
@@ -65,6 +65,7 @@ public class PluginLoginController {
     public void prelogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // String urluser = protocol + "//" + host + request.getContextPath();
+        request.getSession().removeAttribute(SESSION_PLUGIN_LOGIN_ERROR_MESSAGE);
 
         String urlbase = request.getParameter("urlbase");
 
@@ -95,6 +96,8 @@ public class PluginLoginController {
 
     @RequestMapping(value = MAPPING_LOGIN)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        request.getSession().removeAttribute(SESSION_PLUGIN_LOGIN_ERROR_MESSAGE);
 
         //long temps = System.currentTimeMillis();
 
@@ -205,8 +208,11 @@ public class PluginLoginController {
     public String error(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // Primer revisam si hi ha error NO CONTROLAT
+        log.error("Entra a PluginLoginController::error()");
         
         String error = (String)request.getSession().getAttribute(SESSION_PLUGIN_LOGIN_ERROR_MESSAGE);
+        
+        log.error("Entra a PluginLoginController::error() => error = ]" + error + "[");
         
         if (error == null) {
             // Miram l'error del Propi PLugin
@@ -227,12 +233,16 @@ public class PluginLoginController {
             }
             
             
-            request.getSession().setAttribute(SESSION_PLUGIN_LOGIN_ERROR_MESSAGE, error);
+            
         }
+        
+        request.getSession().setAttribute(SESSION_PLUGIN_LOGIN_ERROR_MESSAGE, error);
 
         String fullUrlRedirect = getFinalRedirectAndClean(request);
+        
+        log.info("PLUGIN LOGIN(/errorLogin):  Error => |" + error + "|");
 
-        log.info("\n PLUGIN LOGIN(error):  TORNAM el CONTROL A => " + fullUrlRedirect + "\n");
+        log.info("PLUGIN LOGIN(/errorLogin):  TORNAM el CONTROL A => " + fullUrlRedirect);
 
         return "redirect:" + fullUrlRedirect;
 

@@ -119,16 +119,15 @@ class LoginIbv1ApiTest {
                         "Autenticació no realitzada o error en autenticació: RESPOSTA:\n " + requestBuilder.toString());
                 return;
             }
-            
-            
-           RDatosAutenticacion da =  api.ticket(idSesion);
-           log.info("Dades autenticació: " + da);
-            
-            
+
+            try {
+                RDatosAutenticacion da = api.ticket(idSesion);
+                log.info("Dades autenticació: " + da);
+            } catch (ApiException e) {
+                log.error("Error cridant a ticket: " + e.getResponseBody(), e);
+            }
 
             REvidenciasAutenticacion evis = api.evidencias(idSesion);
-            
-            
 
             log.info("Huella: " + evis.getHuellaElectronica());
 
