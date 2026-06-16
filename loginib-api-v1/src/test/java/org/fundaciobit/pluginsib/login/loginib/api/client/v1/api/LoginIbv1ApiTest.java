@@ -79,6 +79,7 @@ class LoginIbv1ApiTest {
             java.net.ServerSocket serverSocket = new java.net.ServerSocket(port);
             log.info("Esperant connexió al port " + port + " ...");
             java.net.Socket socket = serverSocket.accept();
+
             log.info("Connexió rebuda al port " + port + " ...");
             java.io.BufferedReader in = new java.io.BufferedReader(
                     new java.io.InputStreamReader(socket.getInputStream()));
@@ -86,17 +87,50 @@ class LoginIbv1ApiTest {
 
             StringBuilder requestBuilder = new StringBuilder();
             Boolean isOK = null;
+            int contentLength = 0;
+
+            System.out.println(" -----------------  REBUT ----------------- ");
+
+            // Llegir capçaleres HTTP fins a la línia buida (fi de capçaleres)
             while ((line = in.readLine()) != null) {
-                //log.info("Rebut: " + line);
+                System.out.println(line);
                 requestBuilder.append(line).append("\n");
-                if (line.contains("/loginib/callbackok")) {
-                    isOK = true;
-                    break;
+                if (isOK == null) {
+                    if (line.contains("/loginib/callbackok")) {
+                        isOK = true;                    
+                    }
+                    if (line.contains("/loginib/callbackerror")) {
+                        isOK = false;
+                    }
                 }
 
-                if (line.contains("GET /loginib/callbackerror")) {
-                    isOK = false;
+                // Capturar Content-Length per saber quants bytes té el body
+                if (line.toLowerCase().startsWith("content-length:")) {
+                    contentLength = Integer.parseInt(line.substring("content-length:".length()).trim());
                 }
+
+                // Línia buida indica final de capçaleres HTTP
+                if (line.isEmpty()) {
+                    break;
+                }
+            }
+
+            // Llegir el body segons Content-Length (per peticions POST)
+            String ticket = null;
+            if (contentLength > 0) {
+                char[] body = new char[contentLength];
+                int totalRead = 0;
+                while (totalRead < contentLength) {
+                    int read = in.read(body, totalRead, contentLength - totalRead);
+                    if (read == -1) break;
+                    totalRead += read;
+                }
+                String bodyStr = new String(body, 0, totalRead);                
+                System.out.println("BODY: " + bodyStr);
+                // Exemple de sortida:  ticket=GTFUD2CE-YKDAT8T8-T8JKHJTP&language=ca
+                ticket = bodyStr.split("&")[0].split("=")[1];
+                
+                requestBuilder.append(bodyStr);
             }
 
             // Contestar amb una resposta HTTP 200 OK i un missatge "Revisar consola de test per veure el resultat de l'autenticació"
@@ -121,7 +155,7 @@ class LoginIbv1ApiTest {
             }
 
             try {
-                RDatosAutenticacion da = api.ticket(idSesion);
+                RDatosAutenticacion da = api.ticket(ticket);
                 log.info("Dades autenticació: " + da);
             } catch (ApiException e) {
                 log.error("Error cridant a ticket: " + e.getResponseBody(), e);
