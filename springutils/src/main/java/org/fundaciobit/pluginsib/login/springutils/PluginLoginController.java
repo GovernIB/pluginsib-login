@@ -286,7 +286,7 @@ public class PluginLoginController {
                     str.append("\nRepresentant:");
                     str.append("\n    - Nom: ").append(ucr.getName());
                     str.append("\n    - Llinatge1: ").append(ucr.getSurname1());
-                    str.append("\n    - Llinatge2: ").append(ucr.getSurname1());
+                    str.append("\n    - Llinatge2: ").append(ucr.getSurname2());
                     str.append("\n    - Nif: ").append(ucr.getAdministrationID());
                 }
 
